@@ -1,46 +1,37 @@
 import { Tree } from "antd";
 
-const treeData = [
-  {
-    title: "theme",
-    key: "theme",
-    children: [
-      {
-        title: "file1.liquid",
-        key: "theme/file1.liquid",
-        isLeaf: true,
-      },
-      {
-        title: "file2.liquid",
-        key: "theme/file2.liquid",
-        isLeaf: true,
-      },
-      {
-        title: "file3.liquid",
-        key: "theme/file3.liquid",
-        isLeaf: true,
-      },
-    ],
-  },
-  {
-    title: "layout",
-    key: "layout",
-    children: [
-      {
-        title: "file1.ext",
-        key: "layout/file1.ext",
-        isLeaf: true,
-      },
-      {
-        title: "file2.ext",
-        key: "layout/file2.ext",
-        isLeaf: true,
-      },
-    ],
-  },
-];
+import { useRecoilState } from "recoil";
+import { directoryTreeState } from "../../atoms/code-editor-atoms";
 
 export function FilePicker() {
+  const [directoryTree] = useRecoilState(directoryTreeState);
+
+  function getFolders() {
+    return new Set(directoryTree.map(({ pathname }) => pathname.split("/")[0]));
+  }
+
+  function getTreeData() {
+    const treeData = Array.from(getFolders()).map((folderName) => ({
+      title: folderName,
+      key: folderName,
+      children: [] as { title: string; key: string; isLeaf: boolean }[],
+    }));
+
+    directoryTree.forEach(({ filename, pathname }) => {
+      const folderData = treeData.find(
+        ({ title }) => title === pathname.split("/")[0]
+      );
+
+      folderData?.children.push({
+        title: filename,
+        key: pathname,
+        isLeaf: true,
+      });
+    });
+
+    return treeData;
+  }
+
   return (
     <Tree.DirectoryTree
       multiple
@@ -51,7 +42,7 @@ export function FilePicker() {
       onExpand={() => {
         console.log("Trigger Expand");
       }}
-      treeData={treeData}
+      treeData={getTreeData()}
     />
   );
 }

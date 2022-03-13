@@ -58,7 +58,7 @@ export function FileTabs() {
             overflow: "auto",
             position: "fixed",
             top: 50,
-            left: 210,
+            left: 290,
             right: 10,
             bottom: 10,
           }}

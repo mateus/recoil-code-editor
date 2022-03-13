@@ -8,7 +8,7 @@ export function Frame() {
     <Layout style={{ height: "100vh" }}>
       <Layout.Content>
         <Layout>
-          <Layout.Sider
+          <Layout.Content
             style={{
               overflow: "auto",
               height: "100vh",
@@ -18,12 +18,12 @@ export function Frame() {
               bottom: 0,
             }}
           >
-            <Menu style={{ padding: 10, height: "100vh" }}>
+            <Menu style={{ padding: 10, height: "100vh", width: 280 }}>
               <FilePicker />
             </Menu>
-          </Layout.Sider>
+          </Layout.Content>
           <Layout.Content
-            style={{ marginLeft: 200, padding: 10, height: "100vh" }}
+            style={{ marginLeft: 280, padding: 10, height: "100vh" }}
           >
             <FileTabs />
           </Layout.Content>
