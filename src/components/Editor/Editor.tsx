@@ -1,6 +1,7 @@
 import { useRef, useEffect } from "react";
 import { basicSetup, EditorView, EditorState } from "@codemirror/basic-setup";
 import { oneDark } from "@codemirror/theme-one-dark";
+
 import { useFile } from "../../hooks/find-file";
 
 interface Props {
