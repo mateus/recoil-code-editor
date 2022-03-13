@@ -2,13 +2,15 @@ import { Tree, TreeDataNode } from "antd";
 
 import { useRecoilState } from "recoil";
 import {
-  activeFileState,
+  activeFilePathnameState,
   directoryTreeState,
 } from "../../atoms/code-editor-atoms";
 
 export function FilePicker() {
   const [directoryTree] = useRecoilState(directoryTreeState);
-  const [, setActiveFileState] = useRecoilState(activeFileState);
+  const [, setActiveFilePathnameState] = useRecoilState(
+    activeFilePathnameState
+  );
 
   function getFolders() {
     return new Set(directoryTree.map(({ pathname }) => pathname.split("/")[0]));
@@ -38,21 +40,11 @@ export function FilePicker() {
     return treeData;
   }
 
-  function findFile(key: string) {
-    return directoryTree.find(({ pathname }) => pathname === key);
-  }
-
-  function handleSelectChange(key: string) {
-    const file = findFile(key);
-
-    if (file) setActiveFileState({ ...file, isDirty: false });
-  }
-
   return (
     <Tree.DirectoryTree
       multiple
       defaultExpandAll
-      onSelect={([key]) => handleSelectChange(String(key))}
+      onSelect={([key]) => setActiveFilePathnameState(String(key))}
       treeData={getTreeData()}
     />
   );

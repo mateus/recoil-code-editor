@@ -25,9 +25,9 @@ function createFile(folder = selectRandomFolder()): File {
   const filename = faker.random.word().toLowerCase() + ".liquid";
 
   return {
-    pathname: createPathname(folder, filename),
     filename,
-    document: faker.lorem.paragraphs(getRandomNumber(10), "\n"),
+    document: faker.lorem.paragraphs(getRandomNumber(80), "\n\n"),
+    pathname: createPathname(folder, filename),
   };
 }
 

@@ -1,21 +1,21 @@
 import { useRef, useEffect } from "react";
 import { basicSetup, EditorView, EditorState } from "@codemirror/basic-setup";
 import { oneDark } from "@codemirror/theme-one-dark";
+import { useFile } from "../../hooks/find-file";
 
 interface Props {
-  content: string;
+  pathname: string;
 }
 
-export function Editor({ content }: Props) {
+export function Editor({ pathname }: Props) {
   const editorRef = useRef<HTMLDivElement | null>(null);
+  const { file } = useFile(pathname);
 
   useEffect(() => {
     if (editorRef === null || editorRef.current === null) return;
 
     const state = EditorState.create({
-      doc: content,
-      // we'll likely need to replace basicSetup with (or add) additional
-      // extensions to customize the editor a bit more. https://codemirror.net/6/docs/ref/
+      doc: file?.document,
       extensions: [basicSetup, oneDark],
     });
     const viewEditor = new EditorView({
@@ -26,7 +26,7 @@ export function Editor({ content }: Props) {
     return () => {
       viewEditor.destroy();
     };
-  }, [editorRef, content]);
+  }, [editorRef, file]);
 
   return <div ref={editorRef} style={{ width: "100%" }} />;
 }

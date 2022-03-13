@@ -1,4 +1,4 @@
-import { atom, selector } from "recoil";
+import { atom } from "recoil";
 
 import { initialDirectoryTree } from "../initial-state";
 
@@ -9,17 +9,13 @@ export interface File {
   document: string;
 }
 
-export interface OpenFile extends File {
-  isDirty: boolean;
-}
-
-export const openFilesState = atom<OpenFile[]>({
+export const openFilesState = atom<File[]>({
   key: "openFilesState",
   default: [],
 });
 
-export const activeFileState = atom<OpenFile | null>({
-  key: "activeFileState",
+export const activeFilePathnameState = atom<File["pathname"] | null>({
+  key: "activeFilePathnameState",
   default: null,
 });
 
